@@ -26,13 +26,13 @@ public class InvoiceController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Invoice> findInvoiceById(Long id) {
+    public ResponseEntity<Invoice> findInvoiceById(@PathVariable("id") Long id) {
         logger.info("Finding invoice by id: {}", id);
         return ResponseEntity.ok(invoiceService.findById(id));
     }
 
     @PostMapping
-    public ResponseEntity<Void> saveInvoice(Invoice invoice) {
+    public ResponseEntity<Void> saveInvoice(@RequestBody Invoice invoice) {
         logger.info("Saving invoice: {}", invoice);
         invoiceService.save(invoice);
         return ResponseEntity.status(201).build();

@@ -15,8 +15,8 @@ import java.time.LocalDate;
 public class Invoice {
 
     private Long id;
-    private String date;
-    private String description;
+    private String invoiceDate;
+    private String invoiceDescription;
     private BigDecimal amount;
     private LocalDate insertDate;
 }
