@@ -11,7 +11,7 @@ public interface InvoiceRepository{
 
     Optional<Invoice> findById(Long id);
 
-    List<Invoice> findAll(int size, int offset);
+    List<Invoice> findAll();
 
     Integer save(Invoice veiculo);
 
