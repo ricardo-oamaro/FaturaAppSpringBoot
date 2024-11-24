@@ -12,7 +12,7 @@ import java.util.List;
 
 
 @RestController
-@RequestMapping("/cards")
+@RequestMapping("/card")
 public class CardController {
 
     private static final Logger logger = LoggerFactory.getLogger(InvoiceController.class);
@@ -27,27 +27,36 @@ public class CardController {
     }
 
     @RequestMapping("/{id}")
-    public ResponseEntity<Card> findCardById(Long id) {
+    public ResponseEntity<Card> findCardById(
+            @PathVariable Long id
+    ) {
         logger.info("Finding card by id: {}", id);
         return ResponseEntity.ok(cardService.findById(id));
     }
 
     @PostMapping
-    public ResponseEntity<Void> saveCard(Card card) {
+    public ResponseEntity<Void> saveCard(
+            @RequestBody Card card
+    ) {
         logger.info("Saving card: {}", card);
         cardService.save(card);
         return ResponseEntity.status(201).build();
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Void> updateCard(Card card, Long id) {
+    public ResponseEntity<Void> updateCard(
+            @PathVariable Long id,
+            @RequestBody Card card
+    ) {
         logger.info("Updating card: {}", card);
         cardService.update(card, id);
         return ResponseEntity.status(204).build();
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteCard(Long id) {
+    public ResponseEntity<Void> deleteCard(
+            @PathVariable Long id
+    ) {
         logger.info("Deleting card by id: {}", id);
         cardService.delete(id);
         return ResponseEntity.ok().build();

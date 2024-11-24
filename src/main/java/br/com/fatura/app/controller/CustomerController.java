@@ -27,27 +27,36 @@ public class CustomerController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Customer> findCustomerById(Long id) {
+    public ResponseEntity<Customer> findCustomerById(
+            @PathVariable("id") Long id
+    ) {
         logger.info("Finding invoice by id: {}", id);
         return ResponseEntity.ok(customerService.findById(id));
     }
 
     @PostMapping
-    public ResponseEntity<Void> saveCustomer(Customer invoice) {
-        logger.info("Saving invoice: {}", invoice);
-        customerService.save(invoice);
+    public ResponseEntity<Void> saveCustomer(
+            @RequestBody Customer custumer
+    ) {
+        logger.info("Saving custumer: {}", custumer);
+        customerService.save(custumer);
         return ResponseEntity.status(201).build();
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Void> updateCustomer(Customer invoice, Long id) {
-        logger.info("Updating invoice: {}", invoice);
-        customerService.update(invoice, id);
+    public ResponseEntity<Void> updateCustomer(
+            @PathVariable Long id,
+            @RequestBody Customer customer
+    ) {
+        logger.info("Updating customer: {}", customer);
+        customerService.update(customer, id);
         return ResponseEntity.status(204).build();
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteCustomer(Long id) {
+    public ResponseEntity<Void> deleteCustomer(
+            @PathVariable Long id
+    ) {
         logger.info("Deleting invoice by id: {}", id);
         customerService.delete(id);
         return ResponseEntity.ok().build();

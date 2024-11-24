@@ -36,7 +36,7 @@ public class InvoiceService {
     }
 
         public void delete(Long id){
-            var delete = invoiceRepository.deleteById(id);
+            var delete = invoiceRepository.delete(id);
             if (delete == 0) {
                 throw new RuntimeException("Error deleting invoice");
             }

@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/invoices")
+@RequestMapping("/invoice")
 public class InvoiceController {
 
     private static final Logger logger = LoggerFactory.getLogger(InvoiceController.class);
@@ -32,21 +32,26 @@ public class InvoiceController {
     }
 
     @PostMapping
-    public ResponseEntity<Void> saveInvoice(@RequestBody Invoice invoice) {
+    public ResponseEntity<Invoice> saveInvoice(@RequestBody Invoice invoice) {
         logger.info("Saving invoice: {}", invoice);
         invoiceService.save(invoice);
         return ResponseEntity.status(201).build();
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Void> updateInvoice(Invoice invoice, Long id) {
+    public ResponseEntity<Void> updateInvoice(
+            @PathVariable("id") Long id,
+            @RequestBody  Invoice invoice
+    ) {
         logger.info("Updating invoice: {}", invoice);
         invoiceService.update(invoice, id);
         return ResponseEntity.status(204).build();
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteInvoice(Long id) {
+    public ResponseEntity<Void> deleteInvoice(
+            @PathVariable("id") Long id
+    ) {
         logger.info("Deleting invoice by id: {}", id);
         invoiceService.delete(id);
         return ResponseEntity.ok().build();

@@ -1,5 +1,6 @@
 package br.com.fatura.app.entities;
 
+import jakarta.persistence.*;
 import lombok.*;
 
 import java.math.BigDecimal;
@@ -14,8 +15,13 @@ import java.time.LocalDate;
 @EqualsAndHashCode
 public class Invoice {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String invoiceDate;
+
+    @Column(name = "invoice_date")
+    private LocalDate invoiceDate;
+    @Column(name = "invoice_description")
     private String invoiceDescription;
     private BigDecimal amount;
     private LocalDate insertDate;

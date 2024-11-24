@@ -1,6 +1,6 @@
 CREATE TABLE invoices(
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    invoice_date VARCHAR(255),
+    invoice_date DATE,
     invoice_description VARCHAR(255),
     amount DECIMAL(10, 2),
     insert_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP

@@ -9,11 +9,12 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public class CustomerRepositoryImpl {
+public class CustomerRepositoryImpl implements CustomerRepository {
 
     @Autowired
     private JdbcClient jdbcClient;
 
+    @Override
     public List<Customer> findAll() {
         return jdbcClient
                 .sql("SELECT * FROM customers")
@@ -21,32 +22,35 @@ public class CustomerRepositoryImpl {
                 .list();
     }
 
+    @Override
     public Optional<Customer> findById(Long id) {
         return jdbcClient
-                .sql("SELECT * FROM customers WHERE id = ?")
+                .sql("SELECT * FROM customers WHERE id = :id")
                 .param("id", id)
                 .query(Customer.class)
                 .optional();
     }
 
+    @Override
     public Integer save(Customer customer) {
         return jdbcClient
-                .sql("INSERT INTO customers (name) VALUES (?)")
-                .param("name", customer.getName())
+                .sql("INSERT INTO customers(customer_name) VALUES (?)")
+                .param(customer.getCustomerName())
                 .update();
     }
 
+    @Override
     public Integer update(Customer customer, Long id) {
         return jdbcClient
-                .sql("UPDATE customers SET name = ? WHERE id = ?")
-                .param("name", customer.getName())
-                .param("id", id)
+                .sql("UPDATE customers SET customer_name = ? WHERE id = ?")
+                .params(customer.getCustomerName(), id)
                 .update();
     }
 
-    public Integer deleteById(Long id) {
+    @Override
+    public Integer delete(Long id) {
         return jdbcClient
-                .sql("DELETE FROM customers WHERE id = ?")
+                .sql("DELETE FROM customers WHERE id = :id")
                 .param("id", id)
                 .update();
     }

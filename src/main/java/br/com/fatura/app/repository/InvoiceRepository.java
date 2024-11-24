@@ -13,9 +13,9 @@ public interface InvoiceRepository{
 
     List<Invoice> findAll();
 
-    Integer save(Invoice veiculo);
+    Integer save(Invoice invoice);
 
-    Integer update(Invoice veiculo, Long id);
+    Integer update(Invoice invoice, Long id);
 
     Integer delete(Long id);
 

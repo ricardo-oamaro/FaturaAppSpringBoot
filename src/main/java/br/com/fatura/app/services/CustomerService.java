@@ -38,7 +38,7 @@ public class CustomerService {
     }
 
     public void delete(Long id){
-        var delete = customerRepository.deleteById(id);
+        var delete = customerRepository.delete(id);
         if (delete == 0) {
             throw new RuntimeException("Error deleting customer");
         }

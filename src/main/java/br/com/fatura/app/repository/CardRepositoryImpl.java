@@ -23,7 +23,7 @@ public class CardRepositoryImpl {
 
     public Optional<Card> findById(Long id) {
         return jdbcClient
-                .sql("SELECT * FROM cards WHERE id = ?")
+                .sql("SELECT * FROM cards WHERE id = :id")
                 .param("id", id)
                 .query(Card.class)
                 .optional();
@@ -31,22 +31,21 @@ public class CardRepositoryImpl {
 
     public Integer save(Card card) {
         return jdbcClient
-                .sql("INSERT INTO cards (name) VALUES (?)")
-                .param("name", card.getCardName())
+                .sql("INSERT INTO cards (card_name) VALUES (?)")
+                .param(card.getCardName())
                 .update();
     }
 
     public Integer update(Card card, Long id) {
         return jdbcClient
-                .sql("UPDATE cards SET name = ? WHERE id = ?")
-                .param("name", card.getCardName())
-                .param("id", id)
+                .sql("UPDATE cards SET card_name = ? WHERE id = ?")
+                .params(card.getCardName(), id)
                 .update();
     }
 
     public Integer deleteById(Long id) {
         return jdbcClient
-                .sql("DELETE FROM cards WHERE id = ?")
+                .sql("DELETE FROM cards WHERE id = :id")
                 .param("id", id)
                 .update();
     }

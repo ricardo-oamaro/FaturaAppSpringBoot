@@ -9,18 +9,12 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public class InvoiceRepositoryImpl {
+public class InvoiceRepositoryImpl implements InvoiceRepository {
 
     @Autowired
     private JdbcClient jdbcClient;
 
-    public List<Invoice> findAll() {
-        return jdbcClient
-                .sql("SELECT * FROM invoices")
-                .query(Invoice.class)
-                .list();
-    }
-
+    @Override
     public Optional<Invoice> findById(Long id) {
         return jdbcClient
                 .sql("SELECT * FROM invoices WHERE id = :id")
@@ -29,32 +23,41 @@ public class InvoiceRepositoryImpl {
                 .optional();
     }
 
+    @Override
+    public List<Invoice> findAll() {
+        return jdbcClient
+                .sql("SELECT * FROM invoices")
+                .query(Invoice.class)
+                .list();
+    }
+
+    @Override
     public Integer save(Invoice invoice) {
         return jdbcClient
-                .sql("INSERT INTO invoices (invoice_date, invoice_description, amount) VALUES (?, ?, ?)")
-                .param(invoice.getInvoiceDate())
-                .param(invoice.getInvoiceDescription())
-                .param(invoice.getAmount())
+                .sql("INSERT INTO invoices(invoice_date, invoice_description, amount) VALUES (?, ?, ?)")
+                .params(invoice.getInvoiceDate(),
+                        invoice.getInvoiceDescription(),
+                        invoice.getAmount())
                 .update();
     }
 
+    @Override
     public Integer update(Invoice invoice, Long id) {
         return jdbcClient
-                .sql("UPDATE invoices SET invoice_date = ?, invoice_description = ?, amount = ?, insert_date = ? WHERE id = ?")
-                .param(invoice.getInvoiceDate())
-                .param(invoice.getInvoiceDescription())
-                .param(invoice.getAmount())
-                .param(invoice.getInsertDate())
-                .param(id)
+                .sql("UPDATE invoices SET invoice_date = ?, invoice_description = ?, amount = ? WHERE id = ?")
+                .params(invoice.getInvoiceDate(),
+                        invoice.getInvoiceDescription(),
+                        invoice.getAmount(),
+                        id)
                 .update();
     }
 
-    public Integer deleteById(Long id) {
+    @Override
+    public Integer delete(Long id) {
         return jdbcClient
-                .sql("DELETE FROM invoices WHERE id = ?")
+                .sql("DELETE FROM invoices WHERE id = :id")
                 .param("id", id)
                 .update();
     }
-
 
 }
