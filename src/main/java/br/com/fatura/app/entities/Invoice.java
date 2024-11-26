@@ -20,33 +20,49 @@ import java.util.List;
 @Table(name = "invoices")
 public class Invoice {
 
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Long cardId;
-    private Long customerId;
+
+    @OneToOne
+    @JoinColumn(name = "card_id")
+    private Card cardId;
+
+//    @OneToOne
+//    @JoinColumn(name = "customer_id")
+//    private Customer customerId;
+//
+//    @OneToMany(mappedBy = "invoice", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+//    private List<Expense> expenses;
 
     @Column(name = "invoice_date")
     private LocalDate invoiceDate;
 
     @Column(name = "invoice_description")
     private String invoiceDescription;
+
+    @Transient
     private String customerName;
+
+    @Transient
     private String cardName;
 
     @Enumerated(EnumType.STRING)
     private Category category;
+
+    @Column(name = "amount")
     private BigDecimal amount;
+
+    @Column(name = "total_amount")
     private BigDecimal totalAmount;
+
+    @Column(name = "insert_date")
     private LocalDateTime insertDate;
 
-//    @OneToMany(mappedBy = "invoice", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-//    private List<Expense> expenses;
 
 
     public Invoice(InvoiceRequestDto invoiceRequestDto) {
-        this.cardId = invoiceRequestDto.cardId();
-        this.customerId = invoiceRequestDto.customerId();
         this.invoiceDate = LocalDate.parse(invoiceRequestDto.invoiceDate());
         this.invoiceDescription = invoiceRequestDto.invoiceDescription();
         this.amount = new BigDecimal(invoiceRequestDto.amount());

@@ -28,7 +28,9 @@ CREATE TABLE expenses(
     expense_description VARCHAR(255),
     amount DECIMAL(10, 2),
     category VARCHAR(255),
-    insert_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    insert_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    invoice_id BIGINT NOT NULL,
+    FOREIGN KEY (invoice_id) REFERENCES invoices(id)
 );
 
 
@@ -46,6 +48,6 @@ INSERT INTO invoices(invoice_date, invoice_description, amount, category, custom
 INSERT INTO invoices(invoice_date, invoice_description, amount, category, customer_id, card_id) VALUES('2024-11-07', 'Invoice 1', 200.00, 'EDUCACAO', 3, 3);
 
 
-INSERT INTO expenses(expense_date, expense_description, amount, category) VALUES('2024-11-01', 'Mala', 100.00, 'ALIMENTACAO');
-INSERT INTO expenses(expense_date, expense_description, amount, category) VALUES('2024-11-05', 'Teclado', 150.00, 'TRANSPORTE');
-INSERT INTO expenses(expense_date, expense_description, amount, category) VALUES('2024-11-07', 'Vitrola', 200.00, 'OUTROS');
+INSERT INTO expenses(expense_date, expense_description, amount, category, invoice_id) VALUES('2024-11-01', 'Mala', 100.00, 'ALIMENTACAO', 1);
+INSERT INTO expenses(expense_date, expense_description, amount, category, invoice_id) VALUES('2024-11-05', 'Teclado', 150.00, 'TRANSPORTE', 2);
+INSERT INTO expenses(expense_date, expense_description, amount, category, invoice_id) VALUES('2024-11-07', 'Vitrola', 200.00, 'OUTROS', 3);

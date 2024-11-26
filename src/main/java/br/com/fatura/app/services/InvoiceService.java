@@ -3,11 +3,12 @@ package br.com.fatura.app.services;
 import br.com.fatura.app.dto.InvoiceRequestDto;
 import br.com.fatura.app.entities.Invoice;
 import br.com.fatura.app.repository.InvoiceRepositoryImpl;
+import br.com.fatura.app.repository.InvoiceRepositoryJpa;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.Assert;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class InvoiceService {
@@ -15,32 +16,42 @@ public class InvoiceService {
     @Autowired
     private InvoiceRepositoryImpl invoiceRepository;
 
+    @Autowired
+    private InvoiceRepositoryJpa invoiceRepositoryJpa;
 
     public List<Invoice> findAll() {
-        return invoiceRepository.findAll();
+        return invoiceRepositoryJpa.findAll();
     }
 
     public Invoice findById(Long id) {
-        return invoiceRepository.findById(id).orElse(null);
+        return invoiceRepositoryJpa.findById(id).orElse(null);
     }
 
-    public void save(InvoiceRequestDto invoice) {
+    public Invoice save(InvoiceRequestDto invoice) {
         var invoiceEntity = convertData(invoice);
-        var save = invoiceRepository.save(invoiceEntity);
-        Assert.state(save == 1, "Error saving invoice");
+        return invoiceRepositoryJpa.save(invoiceEntity);
     }
 
-    public void update(Invoice invoice, Long id) {
-        var update = invoiceRepository.update(invoice, id);
-        if (update == 0) {
-            throw new RuntimeException("Error updating invoice");
+    public Invoice update(Invoice invoice, Long id) {
+        Optional<Invoice> currentInvoice = invoiceRepositoryJpa.findById(id);
+
+        if(currentInvoice.isPresent()){
+            Invoice invoiceToUpdate = currentInvoice.get();
+            invoiceToUpdate.setInvoiceDate(invoice.getInvoiceDate());
+            invoiceToUpdate.setInvoiceDescription(invoice.getInvoiceDescription());
+            invoiceToUpdate.setAmount(invoice.getAmount());
+            invoiceToUpdate.setCategory(invoice.getCategory());
+            return invoiceRepositoryJpa.save(invoiceToUpdate);
+        } else {
+            throw new IllegalArgumentException("Invoice not found");
         }
     }
 
     public void delete(Long id) {
-        var delete = invoiceRepository.delete(id);
-        if (delete == 0) {
-            throw new RuntimeException("Error deleting invoice");
+        if (invoiceRepositoryJpa.existsById(id)) {
+            invoiceRepositoryJpa.deleteById(id);
+        } else {
+            throw new IllegalArgumentException("Invoice not found");
         }
     }
 

@@ -1,7 +1,6 @@
 package br.com.fatura.app.repository;
 
 import br.com.fatura.app.entities.Customer;
-import br.com.fatura.app.entities.Invoice;
 
 import java.util.List;
 import java.util.Optional;

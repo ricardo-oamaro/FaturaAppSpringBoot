@@ -50,7 +50,7 @@ public class InvoiceRepositoryImpl implements InvoiceRepository {
                         invoice.getInvoiceDescription(),
                         invoice.getAmount(),
                         invoice.getCategory().name(),
-                        invoice.getCustomerId(),
+                        invoice.getCustomerId(),  //TODO: anterar os repositories de customer e cards para JPA
                         invoice.getCardId()
                 )
                 .update();

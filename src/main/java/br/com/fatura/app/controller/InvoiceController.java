@@ -42,7 +42,7 @@ public class InvoiceController {
     @PutMapping("/{id}")
     public ResponseEntity<Void> updateInvoice(
             @PathVariable("id") Long id,
-            @RequestBody  Invoice invoice
+            @RequestBody Invoice invoice
     ) {
         logger.info("Updating invoice: {}", invoice);
         invoiceService.update(invoice, id);

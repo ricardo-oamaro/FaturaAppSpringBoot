@@ -1,7 +1,6 @@
 package br.com.fatura.app.services;
 
 import br.com.fatura.app.entities.Card;
-import br.com.fatura.app.entities.Invoice;
 import br.com.fatura.app.repository.CardRepositoryImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
