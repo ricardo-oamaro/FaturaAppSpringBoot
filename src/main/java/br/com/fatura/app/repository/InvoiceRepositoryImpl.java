@@ -17,7 +17,7 @@ public class InvoiceRepositoryImpl implements InvoiceRepository {
     @Override
     public Optional<Invoice> findById(Long id) {
         return jdbcClient
-                .sql("SELECT i.id, i.card_id, i.customer_id, i.invoice_date, i.invoice_description, i.amount, i.insert_date, " +
+                .sql("SELECT i.id, i.card_id, i.customer_id, i.invoice_date, i.invoice_description, i.amount, i.category, i.insert_date, " +
                         "c.customer_name, " +
                         "cr.card_name " +
                         "FROM invoices i " +
@@ -32,7 +32,7 @@ public class InvoiceRepositoryImpl implements InvoiceRepository {
     @Override
     public List<Invoice> findAll() {
         return jdbcClient
-                .sql("SELECT i.id, i.card_id, i.customer_id, i.invoice_date, i.invoice_description, i.amount, i.insert_date, " +
+                .sql("SELECT i.id, i.card_id, i.customer_id, i.invoice_date, i.invoice_description, i.amount, i.category, i.insert_date, " +
                         "c.customer_name, " +
                         "cr.card_name " +
                         "FROM invoices i " +
@@ -45,10 +45,11 @@ public class InvoiceRepositoryImpl implements InvoiceRepository {
     @Override
     public Integer save(Invoice invoice) {
         return jdbcClient
-                .sql("INSERT INTO invoices(invoice_date, invoice_description, amount, customer_id, card_id) VALUES (?, ?, ?, ?, ?)")
+                .sql("INSERT INTO invoices(invoice_date, invoice_description, amount, category, customer_id, card_id) VALUES (?, ?, ?, ?, ?, ?)")
                 .params(invoice.getInvoiceDate(),
                         invoice.getInvoiceDescription(),
                         invoice.getAmount(),
+                        invoice.getCategory().name(),
                         invoice.getCustomerId(),
                         invoice.getCardId()
                 )

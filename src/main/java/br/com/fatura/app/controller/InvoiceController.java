@@ -1,5 +1,6 @@
 package br.com.fatura.app.controller;
 
+import br.com.fatura.app.dto.InvoiceRequestDto;
 import br.com.fatura.app.entities.Invoice;
 import br.com.fatura.app.services.InvoiceService;
 import org.slf4j.Logger;
@@ -32,7 +33,7 @@ public class InvoiceController {
     }
 
     @PostMapping
-    public ResponseEntity<Invoice> saveInvoice(@RequestBody Invoice invoice) {
+    public ResponseEntity<Invoice> saveInvoice(@RequestBody InvoiceRequestDto invoice) {
         logger.info("Saving invoice: {}", invoice);
         invoiceService.save(invoice);
         return ResponseEntity.status(201).build();

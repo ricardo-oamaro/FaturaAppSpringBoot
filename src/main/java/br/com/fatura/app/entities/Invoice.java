@@ -1,5 +1,6 @@
 package br.com.fatura.app.entities;
 
+import br.com.fatura.app.dto.InvoiceRequestDto;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -14,6 +15,8 @@ import java.time.LocalDateTime;
 @Setter
 @ToString
 @EqualsAndHashCode
+@Entity
+@Table(name = "invoices")
 public class Invoice {
 
     @Id
@@ -29,9 +32,23 @@ public class Invoice {
     private String invoiceDescription;
     private String customerName;
     private String cardName;
+
+    @Enumerated(EnumType.STRING)
+    private Category category;
     private BigDecimal amount;
     private BigDecimal totalAmount;
     private LocalDateTime insertDate;
 
-    //TODO: Implementar categorias
+
+    public Invoice(InvoiceRequestDto invoiceRequestDto) {
+        this.cardId = invoiceRequestDto.cardId();
+        this.customerId = invoiceRequestDto.customerId();
+        this.invoiceDate = LocalDate.parse(invoiceRequestDto.invoiceDate());
+        this.invoiceDescription = invoiceRequestDto.invoiceDescription();
+        this.amount = new BigDecimal(invoiceRequestDto.amount());
+        this.category = Category.fromString(invoiceRequestDto.category());
+        this.insertDate = LocalDateTime.now();
+    }
+
+
 }
