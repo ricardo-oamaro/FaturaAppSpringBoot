@@ -1,6 +1,7 @@
 package br.com.fatura.app.repository;
 
 import br.com.fatura.app.entities.Expense;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 import java.util.Optional;

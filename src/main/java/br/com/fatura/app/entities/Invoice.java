@@ -7,6 +7,7 @@ import lombok.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 
 @NoArgsConstructor
@@ -38,6 +39,9 @@ public class Invoice {
     private BigDecimal amount;
     private BigDecimal totalAmount;
     private LocalDateTime insertDate;
+
+//    @OneToMany(mappedBy = "invoice", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+//    private List<Expense> expenses;
 
 
     public Invoice(InvoiceRequestDto invoiceRequestDto) {

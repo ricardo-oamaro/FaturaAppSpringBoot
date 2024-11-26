@@ -48,7 +48,7 @@ public class ExpenseController {
             @RequestBody Expense expense
     ) {
         logger.info("Updating expense: {}", expense);
-        expenseService.update(expense, id);
+        expenseService.update(id, expense);
         return ResponseEntity.status(204).build();
     }
 

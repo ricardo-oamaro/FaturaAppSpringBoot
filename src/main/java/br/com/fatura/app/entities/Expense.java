@@ -12,6 +12,8 @@ import java.time.LocalDateTime;
 @Setter
 @ToString
 @EqualsAndHashCode
+@Entity
+@Table(name = "expenses")
 public class Expense {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,4 +24,8 @@ public class Expense {
     private Category category;
     private Double amount;
     private LocalDateTime insertDate;
+
+//    @ManyToOne
+//    @JoinColumn(name = "invoice_id", nullable = false)
+//    private Invoice invoice;
 }
